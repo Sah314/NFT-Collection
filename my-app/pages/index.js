@@ -168,6 +168,7 @@ const getTokenIdsMinted = async()=>{
 };
 const onPageLoad = async()=>{
   await connectWallet();
+  setPresalestarted(true);
   const _presaleStarted = checkIfPresalestarted();
     if(_presaleStarted){
       checkIfpresaleended();
