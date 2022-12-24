@@ -6,7 +6,7 @@
 // global scope, and execute the script.
 const { ethers } = require("hardhat");
 require("dotenv").config({ path: ".env" });
-const { WHITELIST_CONTRACT_ADDRESS, METADATA_URL } = require("../constants");
+const { WHITELIST_CONTRACT_ADDRESS, METADATA_URL } = require("../constants").default;
 
 async function main() {
   // Address of the whitelist contract that you deployed in the previous module

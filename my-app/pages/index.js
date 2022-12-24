@@ -1,10 +1,10 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import {Contract,providers,utils} from "ethers";
+import Head from 'next/head'
 import {useEffect,useRef,useState} from "react";
 import Web3Modal from "web3modal";
 import {abi, NFT_CONTRACT_ADDRESS} from "../constants";
 import styles from '../styles/Home.module.css'
+import Image from 'next/image'
 
 
 export default function Home() {
@@ -41,6 +41,7 @@ export default function Home() {
     }
     return web3Provider;
   };
+
   const presaleMint = async()=>{
     try{
       const signer = await getProviderorSigner(true);
@@ -100,7 +101,7 @@ const startPresale = async()=>{
 };
 const checkIfPresalestarted = async()=>{
   try{
-    const provider = getProviderorSigner();
+    const provider = await getProviderorSigner();
     
     const nftContract = new Contract(NFT_CONTRACT_ADDRESS,abi,provider);
     const _presaleStarted = await nftContract.presalestarted();
@@ -108,19 +109,19 @@ const checkIfPresalestarted = async()=>{
       await getOwner();
     }
     setPresalestarted(_presaleStarted);
-    return _presaleStarted;
     console.log("_presalestarted",_presaleStarted);
+    return _presaleStarted;
   }
   catch(err){
     console.error(err);
     return false;
   }
 };
- 
+
 const checkIfpresaleended = async()=>{
   try{
-    const provider = getProviderorSigner();
-    const nftProvider = new Contract(NFT_CONTRACT_ADDRESS,abi,provider);
+    const provider = await getProviderorSigner();
+    const nftContract = new Contract(NFT_CONTRACT_ADDRESS,abi,provider);
     const _presaleEnded = await nftContract.presaleends();
     
     const hasEnded = _presaleEnded.lt(Math.floor(Date.now()/1000));
@@ -155,7 +156,8 @@ const getOwner =  async()=>{
 };
 const getTokenIdsMinted = async()=>{
   try{
-    const provider = getProviderorSigner();
+    const provider = await getProviderorSigner();
+    console.log(provider);
     const nftContract = new Contract(NFT_CONTRACT_ADDRESS,abi,provider);
     const _tokenIds = await nftContract.tokenIds();
     setTokenIdsMinted(_tokenIds.toString());
@@ -164,16 +166,9 @@ const getTokenIdsMinted = async()=>{
     console.error(err);
   }
 };
-useEffect(()=>{
-  if(!walletConnected){
-    web3ModalRef.current = new Web3Modal({
-      network:"goerli",
-      providerOptions:{},
-      disableInjectedProvider:false,
-    });
-    connectWallet();
-
-    const _presaleStarted = checkIfPresalestarted();
+const onPageLoad = async()=>{
+  await connectWallet();
+  const _presaleStarted = checkIfPresalestarted();
     if(_presaleStarted){
       checkIfpresaleended();
     }
@@ -190,6 +185,16 @@ useEffect(()=>{
     setInterval(async function(){
       await getTokenIdsMinted();
     },5*1000);
+ };
+
+useEffect(()=>{
+  if(!walletConnected){
+    web3ModalRef.current = new Web3Modal({
+      network:"goerli",
+      providerOptions:{},
+      disableInjectedProvider:false,
+    });
+    onPageLoad();
   }
 });
 
