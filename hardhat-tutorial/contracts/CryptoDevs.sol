@@ -9,7 +9,7 @@ contract CryptoDevs is ERC721Enumerable,Ownable{
 
 string _baseTokenURI;
 
-uint256 public _price = 0.01 ether;
+uint256 public _price = 0.001 ether;
 
 bool public _paused;
 
@@ -40,16 +40,16 @@ function presalemint() public payable onlywhennotpaused{
 require(presalestarted && block.timestamp < presaleends,"Presale not currently running!");
 require(whitelist.whitelistedAddresses(msg.sender),"You are not in the whitelist");
 require(tokenIds<maxTokenIds,"Exceeded maximum limit of devs");
-require(msg.value>_price,"Ether sent is not correct");
+require(msg.value>=_price,"Ether sent is not correct");
 tokenIds+=1;
 _safeMint(msg.sender, tokenIds);
 }
 
 function mint() public payable onlywhennotpaused{
-require(presalestarted && block.timestamp < presaleends,"Presale not currently running!");
+require(presalestarted && block.timestamp >= presaleends,"Presale not currently running!");
 
   require(tokenIds<maxTokenIds,"Exceeded maximum limit of devs");
-require(msg.value>_price,"Ether sent is not correct");
+require(msg.value>=_price,"Ether sent is not correct");
 tokenIds+=1;
 _safeMint(msg.sender, tokenIds);  
 }
