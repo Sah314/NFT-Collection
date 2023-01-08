@@ -580,8 +580,8 @@ const abi = [
     "stateMutability": "payable",
     "type": "receive"
   }
-]
-const NFT_CONTRACT_ADDRESS ="0x74831C56278D9d4C603A851dFd9eFccf55B5d37c"
+] 
+const NFT_CONTRACT_ADDRESS ="0x74EA6F9517A46f8E41243773745b4A8e3BE0ada6"
 
 module.exports={
   NFT_CONTRACT_ADDRESS,abi
