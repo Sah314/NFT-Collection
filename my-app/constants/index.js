@@ -1,4 +1,4 @@
-const abi = [
+const abi =[
   {
     "inputs": [
       {
@@ -580,8 +580,8 @@ const abi = [
     "stateMutability": "payable",
     "type": "receive"
   }
-] 
-const NFT_CONTRACT_ADDRESS ="0x74EA6F9517A46f8E41243773745b4A8e3BE0ada6"
+]
+const NFT_CONTRACT_ADDRESS ="0x374a3fEC91d920B813Cec987c1Fa0a26614c9bD6"
 
 module.exports={
   NFT_CONTRACT_ADDRESS,abi

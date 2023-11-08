@@ -4,8 +4,6 @@ import {useEffect,useRef,useState} from "react";
 import Web3Modal from "web3modal";
 import {abi, NFT_CONTRACT_ADDRESS} from "../constants";
 import styles from '../styles/Home.module.css'
-import Image from 'next/image'
-
 
 export default function Home() {
 
@@ -30,9 +28,9 @@ export default function Home() {
   
     // If user is not connected to the Goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
-    if (chainId !== 5) {
-      window.alert("Change the network to Goerli");
-      throw new Error("Change network to Goerli");
+    if (chainId !== 11155111) {
+      window.alert("Change the network to Sepolia");
+      throw new Error("Change network to Sepolia");
     }
 
     if (needSigner) {
@@ -69,7 +67,7 @@ export default function Home() {
     await tx.wait();
     setloading(false);
     
-    window.alert("Success in minting a Crypto Dev ");
+    window.alert("Success in minting a ICE TEA token ");
     }
     catch(err){
       console.error(err);
@@ -110,6 +108,7 @@ const checkIfPresalestarted = async()=>{
     }
     setPresalestarted(_presaleStarted);
     console.log("_presalestarted",_presaleStarted);
+    console.log("isowner",isOwner);
     return _presaleStarted;
   }
   catch(err){
@@ -146,6 +145,8 @@ const getOwner =  async()=>{
     const _owner = await nftContract.owner();
     const signer = await getProviderorSigner(true);
     const address = await signer.getAddress();
+    console.log("Signer: ",signer)
+    console.log("owner: ",_owner)
     if(address.toLowerCase() === _owner.toLowerCase()){
       setIsOwner(true);
     }
@@ -191,7 +192,7 @@ const onPageLoad = async()=>{
 useEffect(()=>{
   if(!walletConnected){
     web3ModalRef.current = new Web3Modal({
-      network:"goerli",
+      network:"sepolia",
       providerOptions:{},
       disableInjectedProvider:false,
     });
@@ -248,7 +249,7 @@ return (
     </Head>
     <div className={styles.main}>
       <div>
-        <h1 className={styles.title}>Welcome to Crypto Devs!</h1>
+        <h1 className={styles.title}>Welcome to ICE TEA!</h1>
         <div className={styles.description}>
           Its an NFT collection for developers in Crypto.
         </div>
@@ -258,12 +259,12 @@ return (
         {RenderButton()}
       </div>
       <div>
-        <img className={styles.image} src="./cryptodevs/0.svg" />
+        <img className={styles.image} src="./devs/0.svg" />
       </div>
     </div>
 
     <footer className={styles.footer}>
-      Made with &#10084; by Crypto Devs
+      Made with &#10084;
     </footer>
   </div>
 );
