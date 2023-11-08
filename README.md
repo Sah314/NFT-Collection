@@ -4,10 +4,10 @@ Created using Hardhat,Solidity,React.js and Next.js. A NFT Collection that mints
 
 Setup project:
 
-'''
+```
 git clone https://github.com/Sah314/NFT-Collection.git
 cd NFT-Collection
-'''
+```
 
 Now you can navigate in to specific directories for the smart contract as well as the application.
 PLease use your metamask private key, and any node rpc url of your choice for the smart contract.
